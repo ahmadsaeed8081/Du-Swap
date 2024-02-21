@@ -54,7 +54,8 @@ const Home = () => {
   const [Minimum_withdraw, set_Minimum_withdraw] = useState(0);
   const [Du_price_in_usdt, set_Du_price_in_usdt] = useState(0);
 
-  
+  const [usdt_to_du_val, set_usdt_to_du] = useState(0);
+  const [du_to_usdt_val, set_du_to_usdt] = useState(0);
 
   const [orderHistory, set_orderHistory] = useState([]);
   const [owner, set_owner] = useState(0);
@@ -65,6 +66,13 @@ const Home = () => {
   const [Expected_tokens, set_Expected_tokens] = useState(0);
  
   const [loader, setLoader] = useState(false);
+
+
+  const [choosed_order, set_choosed_order] = useState(0);
+  const [decision, set_decision] = useState(0);
+  const [index_no, set_index_no] = useState(-1);
+
+  const [col_on, set_col_on] = useState(0);
 
 
   const notify = () => toast("Referral is Copied Successfully!");
@@ -93,6 +101,26 @@ const Home = () => {
 
     }
   },[address]);
+
+
+  useEffect(()=>{
+    console.log("LKNLJN BIUBN "+index_no)
+    if(index_no != -1)
+    {   
+      if(CHAIN_ID==chain.id)
+      {
+
+        respond_to_request1?.();
+      }
+      else
+      {
+        respond_to_request_switch();
+      }
+    }
+  
+  },[decision])
+
+
 
   const {
     data: du_to_usdt_swapResult,
@@ -161,7 +189,34 @@ const Home = () => {
 
 
 
+    const { data:Result_respond_to_request, isLoading2_respond_to_request1, isSuccess2_respond_to_request1, write:respond_to_request1 } = useContractWrite({
+      address: cont_address,
+      abi: cont_abi,
+      functionName: 'cancel_order',
+      args: [choosed_order,decision,index_no],
+})
 
+
+const waitForTransaction = useWaitForTransaction({
+  hash: Result_respond_to_request?.hash,
+  onSuccess(data) {
+    get_Data?.();
+    console.log("Success", data);
+  },
+});
+
+
+   const {switchNetwork:respond_to_request_switch } =
+    useSwitchNetwork({
+    chainId: CHAIN_ID,
+    onSuccess(){
+      console.log("objectifyft");
+      respond_to_request1?.();
+    }
+  
+    
+  
+  })
 
 
   const {
@@ -273,7 +328,10 @@ const count = (time) => {
     
     let Minimum_withdraw_limit = await contract.methods.Minimum_withdraw_limit().call();  
 
-    let Du_price_in_usdt = await contract.methods.Du_price_in_usdt().call();  
+    let Du_price_in_usdt = await contract.methods.Du_price_in_usdt().call();
+
+    let usdt_to_du = await contract.methods.get_usdt_to_du().call();  
+    let du_to_usdt = await contract.methods.get_du_to_usdt().call();  
 
     
     let owner = await contract.methods.owner().call();  
@@ -283,7 +341,8 @@ const count = (time) => {
 
     let orderHistory = await contract.methods.get_userSwaps().call({from : address});  
 
-
+    set_usdt_to_du(usdt_to_du)
+    set_du_to_usdt(du_to_usdt)
     set_swap_fee(Convert_To_eth(swap_fee))
     set_referralEarning(user[4])
     set_totalOrders(user[0])
@@ -314,8 +373,16 @@ const count = (time) => {
   
   function onSend_expected_reciving(value) 
   {
-    if(value==0)
-    return
+    if(value==0 )
+    {
+      setReceive(0);
+      set_fee(0)
+
+      set_Expected_tokens(0)
+
+      return
+    }
+
     if((activeReceiveCurrency.label == "USDT" && activePayCurrency.label =="DU")  )
     {
 
@@ -360,8 +427,15 @@ const count = (time) => {
   
   function onRecieve_expected_reciving(value) 
   {
-    if(value==0)
-    return
+    if(value==0 )
+    {
+      setReceive(0);
+      set_fee(0)
+
+      set_Expected_tokens(0)
+
+      return
+    }
     if((activeReceiveCurrency.label == "USDT" && activePayCurrency.label =="DU")  )
     {
       let price = Number(Du_price_in_usdt)/10**18
@@ -482,6 +556,28 @@ const count = (time) => {
   
   }
 
+  function action(_orderNo,_decision,_index)
+  {
+
+
+   set_choosed_order(_orderNo);
+   set_decision(_decision);
+   set_index_no(_index)
+   console.log(" decision" +decision);
+   if(_decision==decision)
+   {
+     if(CHAIN_ID==chain.id)
+     {
+       respond_to_request1?.();
+     }
+     else
+     {
+       respond_to_request_switch();
+     }
+   }
+
+
+ }
   return (
     <>
       <div className="home">
@@ -701,20 +797,23 @@ const count = (time) => {
                   <img src="/images/usd-T.png" className="ls-usdImage" />
                   <div className="usdt">USDT</div>
                 </div>
-                <div className="rs-Analy">
-                  <img src="/images/usd-T.png" className="rs-image" />
-                  <div className="chat-usdt-rs">USDT</div>
+                <div className="ls-Analy">
+                  <img src="/images/usd-T.png" className=" ls-usdImage" />
+                  <h1 className="usdt">USDT</h1>
                   <div className="arrow-right">
                     <ArrowIcon />
                   </div>
+                  <img src="/images/du.png" className="du-image" />
+                  <div className="du">DU</div>
                 </div>
               </div>
               <div className="Rp">
-                <div className="ls-rp">300000</div>
+                <div className="ls-rp">{Convert_To_eth(du_to_usdt_val)}</div>
                 <div className="ArrowLeftRight ">
                   <ArrowRightIcon />
                 </div>
-                <div className="rs-rp">300000</div>
+                <div className="rs-rp">{Convert_To_eth(usdt_to_du_val)}</div>
+                
               </div>
             </div>
           </div>
@@ -729,11 +828,13 @@ const count = (time) => {
                 <div className="table-head">
                   <div className="row title sr-no">Sr.No</div>
                   <div className="row title">Order No</div>
-                  <div className="row title">IN Amount</div>
-                  <div className="row title">OUT Amount</div>
-                  <div className="row title">Place Time</div>
-                  <div className="row title">Decision Time</div>
+                  <div className="row title">IN</div>
+                  <div className="row title">OUT</div>
+                  <div className="row title">Time</div>
+                  {/* <div className="row title">Decision Time</div> */}
                   <div className="row title">Status</div>
+                  <div className="row title"></div>
+
                 </div>
                 <div className="table-lists">
                   {orderHistory.map((item,index) => (
@@ -741,10 +842,17 @@ const count = (time) => {
                       <div className="row label">{index}</div>
                       <div className="row label">0xdu{Number(item[1])}</div>
                       <div className="row label">{Convert_To_eth(item[4])} {Number(item[2])==du_Address ? ("DU"):("USDT") }</div>
-                      <div className="row label">{Number(item[5])/10**18}  {Number(item[3])==du_Address ? ("DU"):("USDT") }</div>
+                      <div className="row label">{(Number(item[5])/10**18).toFixed(2)}  {Number(item[3])==du_Address ? ("DU"):("USDT") }</div>
                       <div className="row label">{count(Number(item[6]))}</div>
-                      <div className="row label">{Number(item[7])==0?(""):(count(Number(item[7])))}</div>
-                      <div className="row label">{Number(item[8])==0 ? ("pending"):(Number(item[8])==1 ? ("Approve"):(Number(item[8])==2 ? ("Decline"):(null))) }</div>
+                      {/* <div className="row label">{Number(item[7])==0?(""):(count(Number(item[7])))}</div> */}
+                      <div className="row label">{Number(item[8])==0 ? ("pending"):(Number(item[8])==1 ? ("Approve"):(Number(item[8])==2 ? ("Decline"):(Number(item[8])==3 ? ("Cancelled"):(null)))) }</div>
+                      
+                      {Number(item[8])==0 ?(
+                      <div className="row label"><button className="button btn" style={{ background:"red" ,borderRadius:"12 px" }} onClick={()=>action(item[1],3,item[9])}> Cancel</button></div>
+                      ):(
+                        <div className="row label"></div>
+
+                      )}
 
                     </div>
                   ))}
