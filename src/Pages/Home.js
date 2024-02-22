@@ -29,7 +29,7 @@ import { useContractReads,useContractRead ,useContractWrite, usePrepareContractW
 
 const currencyList = [
   { label: "USDT", value: "usdt", icon: "/images/usd-T.png",address:usdt_Address },
-  { label: "DU", value: "du", icon: "/images/du.png", address:du_Address },
+  { label: "DU", value: "du", icon: "/images/logo.png", address:du_Address },
 ];
 
 const Home = () => {

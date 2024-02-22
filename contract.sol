@@ -20,13 +20,11 @@ contract Du_Swap is Proxiable
             address userAddress;
             uint order_no;
             address in_TokenAddress;
-            address out_TokenAddress;
 
             uint in_Amount;
             uint out_Amount;
 
             uint orderPlacingTime;
-            uint orderEndTime;
             uint decision;
             uint index_no;
             uint fee;
@@ -35,9 +33,7 @@ contract Du_Swap is Proxiable
         
         struct Data{
 
-            uint total_orders;
             bool investBefore;
-            address referralFrom;
             uint totalDirects;
             uint Ref_earning;
             uint[] orders_array;
@@ -52,7 +48,6 @@ contract Du_Swap is Proxiable
         uint public  Du_price_in_usdt;
         uint public ref_percentage;
         uint public Minimum_withdraw_limit;
-        uint public total_users;
         uint public total_orders;
 
         bool public initalized = false;
@@ -81,8 +76,8 @@ contract Du_Swap is Proxiable
             require(owner == address(0), "Already initalized");
             require(!initalized, "Already initalized");
             owner = msg.sender;
-            DU_address=0xf1CbC9d271f8fB77BA037C4c39ef7A46dd4FFB4f;
-            usdt_address=0x30aF54aeF773af78D6f052a327C32d3229c9661E;
+            DU_address=0xe298eD3543B45037A2D4037ac6dfeB2E801f9803;
+            usdt_address=0x55d398326f99059fF775485246999027B3197955;
             Du_price_in_usdt = 0.07 ether;   
             ref_percentage= 1 ether;
             Minimum_withdraw_limit = 100 ether;
@@ -92,22 +87,20 @@ contract Du_Swap is Proxiable
             initalized = true;
 
         }
+        
 
-        function check_recieving_Amount( address add,uint amount) public view returns(uint)
+        function check_recieving_Amount( address add,uint amount) internal view returns(uint)
         {
-            uint recieving_amount;
-
             if(add==usdt_address)
             {
-               recieving_amount=  (amount *1 ether)/ Du_price_in_usdt ;
+               return  (amount *1 ether)/ Du_price_in_usdt ;
             }
-            else if(add==DU_address)
+            else
             {
-                recieving_amount=  (amount * Du_price_in_usdt)/1 ether;
+                return  (amount * Du_price_in_usdt)/1 ether;
             }
 
-            return recieving_amount;
-        }
+         }
         
 
 
@@ -121,28 +114,20 @@ contract Du_Swap is Proxiable
             orders[total_orders].in_Amount=amount-fee_temp;
             orders[total_orders].userAddress=msg.sender;
 
-            orders[total_orders].out_Amount=check_recieving_Amount(DU_address,amount-fee_temp);
-            orders[total_orders].in_TokenAddress=DU_address;
-            orders[total_orders].out_TokenAddress=usdt_address;
+            orders[total_orders].out_Amount = check_recieving_Amount(DU_address,amount-fee_temp);
+            orders[total_orders].in_TokenAddress = DU_address;
 
             orders[total_orders].orderPlacingTime=block.timestamp;
-            user[msg.sender].total_orders++;
             pending_orders_arr.push(total_orders);
             user[msg.sender].orders_array.push(total_orders);
 
             total_orders++;
             Total_du_to_usdt+=amount;
-            if(user[msg.sender].investBefore == false)
-            { 
-                total_users++;     
-                user[msg.sender].investBefore=true;                                                  
-            }
-
+ 
 
             if(_ref!=address(0) || _ref!=msg.sender)
             {
                 
-                user[msg.sender].referralFrom=_ref;
                 user[_ref].Ref_earning+= (amount * ref_percentage) / 100 ether;
                 user[_ref].totalDirects++;
 
@@ -171,26 +156,18 @@ contract Du_Swap is Proxiable
             uint temp_amount=check_recieving_Amount(usdt_address,amount-fee_temp);
             orders[total_orders].out_Amount=temp_amount;
             orders[total_orders].in_TokenAddress=usdt_address;
-            orders[total_orders].out_TokenAddress=DU_address;
 
             orders[total_orders].orderPlacingTime=block.timestamp;
-            orders[total_orders].orderEndTime=block.timestamp;
-            orders[total_orders].decision=1;                         //0 pending. 1 approve.  2 decline.
+            orders[total_orders].decision=1;                        
             user[msg.sender].orders_array.push(total_orders);
-            user[msg.sender].total_orders++;
             Total_usdt_to_du+=amount;
 
-            if(user[msg.sender].investBefore == false)
-            { 
-                total_users++;     
-                user[msg.sender].investBefore=true;                                                  
-            }
+
 
 
             if(_ref!=address(0) || _ref!=msg.sender)
             {
                 
-                user[msg.sender].referralFrom=_ref;
                 user[_ref].Ref_earning+= (temp_amount * ref_percentage) / 100 ether;
                 user[_ref].totalDirects++;
 
@@ -246,7 +223,6 @@ contract Du_Swap is Proxiable
 
             require(orders[num].decision==0);
             require(_decision==1 || _decision==2);
-            orders[num].orderEndTime=block.timestamp;
             orders[num].decision=_decision;
 
 
@@ -254,8 +230,17 @@ contract Du_Swap is Proxiable
             if(_decision==1)
             {
                 uint amount = orders[num].out_Amount;
-                address tokenAddress = orders[num].out_TokenAddress;
-                Token(tokenAddress).transfer(orders[num].userAddress,amount);
+                address tokenAddress = orders[num].in_TokenAddress;
+                if(tokenAddress==DU_address)
+                {
+                    Token(usdt_address).transfer(orders[num].userAddress,amount);
+
+                }
+                else if(tokenAddress==usdt_address)
+                {
+                    Token(DU_address).transfer(orders[num].userAddress,amount);
+
+                }
 
             }
             else if(_decision==2)
@@ -276,7 +261,6 @@ contract Du_Swap is Proxiable
             require(msg.sender==orders[num].userAddress);
             require(orders[num].decision==0 && orders[num].in_Amount>0);
             require(_decision==3);
-            orders[num].orderEndTime=block.timestamp;
             orders[num].decision=_decision;
 
             uint amount = orders[num].in_Amount + orders[num].fee;
