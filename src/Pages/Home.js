@@ -86,8 +86,7 @@ const Home = () => {
 
 
 
-  const CHAIN_ID = "80001";
-  const CHAIN_ID1 = "0x89";
+  const CHAIN_ID = "56";
 
   useEffect(() => {
     if(isConnected)
@@ -312,7 +311,7 @@ const count = (time) => {
 
   async function get_Data(){
     // setLoader(true)
-    const web3= new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/Xr86iyHzmF6-yzBAqV5rd_PW7ds7QKlh"));
+    const web3= new Web3(new Web3.providers.HttpProvider("https://bsc.publicnode.com"));
     setLoader(true)
 
               
