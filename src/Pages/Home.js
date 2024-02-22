@@ -313,7 +313,7 @@ const count = (time) => {
   async function get_Data(){
     // setLoader(true)
     const web3= new Web3(new Web3.providers.HttpProvider("https://bsc.publicnode.com"));
-    // setLoader(true)
+    setLoader(true)
 
               
    const balance =await  web3.eth.getBalance(address)
@@ -390,14 +390,14 @@ const count = (time) => {
      let dec_price= new Decimal(price);
      value=new Decimal(value)
       let temp=dec_price.times(value);
-      setReceive(temp);
+      setReceive(Number(temp).toFixed(2));
 
      let dec_temp= new Decimal(Number(temp))
      let dec_fees=new Decimal(Number(swap_fee))
      let fees=dec_temp.times(dec_fees)
       const result = fees.div(100);
-      set_fee(Number(result))
-      set_Expected_tokens(Number(temp)  - (Number(result.toDecimalPlaces(2))))
+      set_fee(Number(result).toFixed(2))
+      set_Expected_tokens((Number(temp)  - (Number(result.toDecimalPlaces(2)))).toFixed(2))
 
     }
     else if(activeReceiveCurrency.label == "Du" ||activePayCurrency.label == "USDT")
@@ -410,15 +410,15 @@ const count = (time) => {
       value=new Decimal(value)
        let temp=value.div(dec_price);
 
-      setReceive(temp);
+      setReceive(Number(temp).toFixed(2));
 
       let dec_temp= new Decimal(Number(temp))
       let dec_fees=new Decimal(Number(swap_fee))
       let fees=dec_temp.times(dec_fees)
        const result = fees.div(100);
-       set_fee(Number(result))
+       set_fee(Number(result).toFixed(2))
 
-       set_Expected_tokens(Number(temp)  - (Number(result.toDecimalPlaces(2))))
+       set_Expected_tokens((Number(temp)  - (Number(result.toDecimalPlaces(2)))).toFixed(2))
 
     }
     
@@ -443,15 +443,15 @@ const count = (time) => {
       value=new Decimal(value)
        let temp=value.div(dec_price);
 
-      setPay(temp);
+      setPay(Number(temp).toFixed(2));
 
       let dec_temp= new Decimal(Number(temp))
       let dec_fees=new Decimal(Number(swap_fee))
       let fees=dec_temp.times(dec_fees)
        const result = fees.div(100);
-       set_fee(Number(result))
+       set_fee(Number(result).toFixed(2))
 
-       set_Expected_tokens(Number(temp)  - (Number(result.toDecimalPlaces(2))))
+       set_Expected_tokens((Number(temp)  - (Number(result.toDecimalPlaces(2)))).toFixed(2))
     
     }
     else if(activeReceiveCurrency.label == "Du" ||activePayCurrency.label == "USDT")
@@ -460,14 +460,14 @@ const count = (time) => {
       let dec_price= new Decimal(price);
       value=new Decimal(value)
        let temp=dec_price.times(value);
-       setPay(temp);
+       setPay(Number(temp).toFixed(2));
  
       let dec_temp= new Decimal(Number(temp))
       let dec_fees=new Decimal(Number(swap_fee))
       let fees=dec_temp.times(dec_fees)
        const result = fees.div(100);
-       set_fee(Number(result))
-       set_Expected_tokens(Number(temp)  - (Number(result.toDecimalPlaces(2))))
+       set_fee(Number(result).toFixed(2))
+       set_Expected_tokens((Number(temp)  - (Number(result.toDecimalPlaces(2)))).toFixed(2))
     }
   }
   
