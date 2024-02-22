@@ -131,6 +131,7 @@ const Home = () => {
     abi: cont_abi,
     functionName: 'du_to_usdt',
     args: [Convert_To_Wei(pay),ref_add],
+    // gas:350000,
     onSuccess(data) {
       get_Data();
       console.log('Success', data)
@@ -343,9 +344,9 @@ const count = (time) => {
     set_usdt_to_du(usdt_to_du)
     set_du_to_usdt(du_to_usdt)
     set_swap_fee(Convert_To_eth(swap_fee))
-    set_referralEarning(user[4])
-    set_totalOrders(user[0])
-    set_Directs(user[3])
+    set_referralEarning(user[2])
+    // set_totalOrders(user[0])
+    set_Directs(user[1])
     set_usdt_balance(usdt_Balance)
     set_du_balance(Du_Balance)
     set_Minimum_withdraw(Minimum_withdraw_limit)
@@ -740,9 +741,10 @@ const count = (time) => {
           <div className="home-rs">
             <div className="rs_circle"></div>
             <div className="payment-box">
-              <div className="tol_invest">
-                <h1 className="invest">Total Orders</h1>
-                <div className="total-num">{Number(totalOrders)}</div>
+
+            <div className="tol_Bal">
+                <h1 className="balance">Total Directs</h1>
+                <div className="total-num">{Number(Directs)}</div>
               </div>
               <div className="tol_Ear">
                 <h1 className="earning">Total Earning</h1>
@@ -751,14 +753,18 @@ const count = (time) => {
                   <button className="btn-withdraw" onClick={withdraw}>Withdraw</button>
                 </div>
               </div>
-              <div className="tol_Bal">
-                <h1 className="balance">Total Directs</h1>
-                <div className="total-num">{Number(Directs)}</div>
+
+              <div className="tol_invest">
+                <h1 className="invest">Your Du Balance</h1>
+                <div className="total-num">{(Number(du_balance)/10**18).toFixed(2)}</div>
               </div>
               <div className="tol_Ref">
-                <h1 className="referr">Total Referrals</h1>
-                <div className="total-num">{Number(Directs)}</div>
+                <h1 className="referr">Your USDT Balance</h1>
+                <div className="total-num">{(Number(usdt_balance)/10**18).toFixed(2)}</div>
               </div>
+
+
+
             </div>
             <div className="link-box">
               <div className="text">
@@ -840,14 +846,14 @@ const count = (time) => {
                     <div className="list">
                       <div className="row label">{index}</div>
                       <div className="row label">0xdu{Number(item[1])}</div>
-                      <div className="row label">{Convert_To_eth(item[4])} {Number(item[2])==du_Address ? ("DU"):("USDT") }</div>
-                      <div className="row label">{(Number(item[5])/10**18).toFixed(2)}  {Number(item[3])==du_Address ? ("DU"):("USDT") }</div>
-                      <div className="row label">{count(Number(item[6]))}</div>
-                      {/* <div className="row label">{Number(item[7])==0?(""):(count(Number(item[7])))}</div> */}
-                      <div className="row label">{Number(item[8])==0 ? ("pending"):(Number(item[8])==1 ? ("Approve"):(Number(item[8])==2 ? ("Decline"):(Number(item[8])==3 ? ("Cancelled"):(null)))) }</div>
+                      <div className="row label">{(Number(item[3])/10**18).toFixed(2)} {Number(item[2])==du_Address ? ("DU"):("USDT") }</div>
+                      <div className="row label">{(Number(item[4])/10**18).toFixed(2)}  {Number(item[2])!=du_Address ? ("DU"):("USDT") }</div>
+                      <div className="row label">{count(Number(item[5]))}</div>
+                      {/* <div className="row label">{Number(item[6])==0?(""):(count(Number(item[7])))}</div> */}
+                      <div className="row label">{Number(item[6])==0 ? ("pending"):(Number(item[6])==1 ? ("Approve"):(Number(item[6])==2 ? ("Decline"):(Number(item[6])==3 ? ("Cancelled"):(null)))) }</div>
                       
-                      {Number(item[8])==0 ?(
-                      <div className="row label"><button className="button btn" style={{ background:"red" ,borderRadius:"12 px" }} onClick={()=>action(item[1],3,item[9])}> Cancel</button></div>
+                      {Number(item[6])==0 ?(
+                      <div className="row label"><button className="button btn" style={{ background:"red" ,borderRadius:"12 px" }} onClick={()=>action(item[1],3,item[7])}> Cancel</button></div>
                       ):(
                         <div className="row label"></div>
 

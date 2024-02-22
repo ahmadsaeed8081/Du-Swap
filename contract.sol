@@ -76,33 +76,20 @@ contract Du_Swap is Proxiable
         _;
     }      
 
-        // function initialize() public 
-        // {
-        //     require(owner == address(0), "Already initalized");
-        //     require(!initalized, "Already initalized");
-        //     owner = msg.sender;
-        //     DU_address=0x33b0E5AB94132AF35F1B174bd28d12bB04FB8Ed8;
-        //     usdt_address=0xd562bEA1e3ca6236e3c2626b5E1499f44E9002b7;
-        //     Du_price_in_usdt = 0.1 ether;   
-        //     ref_percentage= 1 ether;
-        //     Minimum_withdraw_limit = 100 ether;
-        //     fee=1 ether;
-        //     initalized = true;
-
-        // }
-        constructor()  
+        function initialize() public 
         {
             require(owner == address(0), "Already initalized");
             require(!initalized, "Already initalized");
             owner = msg.sender;
-            DU_address=0x33b0E5AB94132AF35F1B174bd28d12bB04FB8Ed8;
-            usdt_address=0xd562bEA1e3ca6236e3c2626b5E1499f44E9002b7;
+            DU_address=0xf1CbC9d271f8fB77BA037C4c39ef7A46dd4FFB4f;
+            usdt_address=0x30aF54aeF773af78D6f052a327C32d3229c9661E;
             Du_price_in_usdt = 0.07 ether;   
             ref_percentage= 1 ether;
             Minimum_withdraw_limit = 100 ether;
-            fee=1 ether;
+            fee=0.05 ether;
             baseVal_usdt_to_du=1000 ether;
             baseVal_du_to_usdt=100 ether;
+            initalized = true;
 
         }
 

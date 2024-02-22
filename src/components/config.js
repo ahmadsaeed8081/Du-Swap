@@ -1,4 +1,4 @@
-export const cont_address="0x31F24eF66C32Db028aB23784C9880281b0Ae3f01";
+export const cont_address="0x94A0A5Bba888DE73aB693Ff5505ABac2f22EA7ED";
 export const usdt_Address="0x30aF54aeF773af78D6f052a327C32d3229c9661E";
 export const du_Address="0xf1CbC9d271f8fB77BA037C4c39ef7A46dd4FFB4f";
 
@@ -266,30 +266,6 @@ export const cont_abi=[
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "add",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "check_recieving_Amount",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "DU_address",
 		"outputs": [
@@ -350,11 +326,6 @@ export const cont_abi=[
 						"type": "address"
 					},
 					{
-						"internalType": "address",
-						"name": "out_TokenAddress",
-						"type": "address"
-					},
-					{
 						"internalType": "uint256",
 						"name": "in_Amount",
 						"type": "uint256"
@@ -367,11 +338,6 @@ export const cont_abi=[
 					{
 						"internalType": "uint256",
 						"name": "orderPlacingTime",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "orderEndTime",
 						"type": "uint256"
 					},
 					{
@@ -446,11 +412,6 @@ export const cont_abi=[
 						"type": "address"
 					},
 					{
-						"internalType": "address",
-						"name": "out_TokenAddress",
-						"type": "address"
-					},
-					{
 						"internalType": "uint256",
 						"name": "in_Amount",
 						"type": "uint256"
@@ -463,11 +424,6 @@ export const cont_abi=[
 					{
 						"internalType": "uint256",
 						"name": "orderPlacingTime",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "orderEndTime",
 						"type": "uint256"
 					},
 					{
@@ -593,19 +549,6 @@ export const cont_abi=[
 	},
 	{
 		"inputs": [],
-		"name": "total_users",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "usdt_address",
 		"outputs": [
 			{
@@ -628,19 +571,9 @@ export const cont_abi=[
 		"name": "user",
 		"outputs": [
 			{
-				"internalType": "uint256",
-				"name": "total_orders",
-				"type": "uint256"
-			},
-			{
 				"internalType": "bool",
 				"name": "investBefore",
 				"type": "bool"
-			},
-			{
-				"internalType": "address",
-				"name": "referralFrom",
-				"type": "address"
 			},
 			{
 				"internalType": "uint256",
