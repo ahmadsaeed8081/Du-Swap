@@ -313,7 +313,7 @@ const count = (time) => {
   async function get_Data(){
     // setLoader(true)
     const web3= new Web3(new Web3.providers.HttpProvider("https://bsc.publicnode.com"));
-    setLoader(true)
+    // setLoader(true)
 
               
    const balance =await  web3.eth.getBalance(address)
@@ -589,6 +589,8 @@ const count = (time) => {
               style={{ backgroundImage: `url(/images/swap-bg.png)` }}
             >
               <h1>Swap</h1>
+              <h1 style={{ textAlign:"right" }}>1 DU = {Number(Du_price_in_usdt)/10**18} USDT</h1>
+
               <div className="field-control">
                 <div className="field">
                   <h2 className="label">You pay</h2>
@@ -719,14 +721,14 @@ const count = (time) => {
                 </Menu>
               </div>
               <div className="ded-text">
-                <div className="ded_ls">Fee ( 1% )</div>
+                <div className="ded_ls">Fee ( 0.15% )</div>
                 <div className="amount-num">
                   <div className="input-add">{fee}</div>
                   <div className="input-name">{activeReceiveCurrency.label}</div>
                 </div>
               </div>
               <div className="exp-text">
-                <div className="exp_ls">Expected Token</div>
+                <div className="exp_ls">Expected Amount</div>
                 <div className="amount-num">
                   <div className="input-add">{Expected_tokens}</div>
                   <span className="input-name">{activeReceiveCurrency.label}</span>
@@ -794,7 +796,7 @@ const count = (time) => {
               </div>
               <div className="analysis-filed">
                 <div className="ls-Analy">
-                  <img src="/images/du.png" className="du-image" />
+                  <img src="/images/logo.png" className="du-image" />
                   <h1 className="du">DU</h1>
                   <div className="arrow-right">
                     <ArrowIcon />
@@ -808,7 +810,7 @@ const count = (time) => {
                   <div className="arrow-right">
                     <ArrowIcon />
                   </div>
-                  <img src="/images/du.png" className="du-image" />
+                  <img src="/images/logo.png" className="du-image" />
                   <div className="du">DU</div>
                 </div>
               </div>
@@ -827,7 +829,7 @@ const count = (time) => {
         <div className="history">
           <div className="blur-circle"></div>
           <div className="wrapper app-width">
-            <div className="heading-name">Swap History</div>
+            <div className="heading-name">Swapping History</div>
             <div className="table">
               <di className="table-content">
                 <div className="table-head">
@@ -850,7 +852,7 @@ const count = (time) => {
                       <div className="row label">{(Number(item[4])/10**18).toFixed(2)}  {Number(item[2])!=du_Address ? ("DU"):("USDT") }</div>
                       <div className="row label">{count(Number(item[5]))}</div>
                       {/* <div className="row label">{Number(item[6])==0?(""):(count(Number(item[7])))}</div> */}
-                      <div className="row label">{Number(item[6])==0 ? ("pending"):(Number(item[6])==1 ? ("Approve"):(Number(item[6])==2 ? ("Decline"):(Number(item[6])==3 ? ("Cancelled"):(null)))) }</div>
+                      <div className="row label">{Number(item[6])==0 ? ("pending"):(Number(item[6])==1 ? ("Approved"):(Number(item[6])==2 ? ("Decline"):(Number(item[6])==3 ? ("Cancelled"):(null)))) }</div>
                       
                       {Number(item[6])==0 ?(
                       <div className="row label"><button className="button btn" style={{ background:"red" ,borderRadius:"12 px" }} onClick={()=>action(item[1],3,item[7])}> Cancel</button></div>
