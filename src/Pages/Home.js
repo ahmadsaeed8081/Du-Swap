@@ -53,6 +53,7 @@ const Home = () => {
 
   const [Minimum_withdraw, set_Minimum_withdraw] = useState(0);
   const [Du_price_in_usdt, set_Du_price_in_usdt] = useState(0);
+  const [DuSell_price_in_usdt, set_DuSell_price_in_usdt] = useState(0);
 
   const [usdt_to_du_val, set_usdt_to_du] = useState(0);
   const [du_to_usdt_val, set_du_to_usdt] = useState(0);
@@ -329,6 +330,7 @@ const count = (time) => {
     let Minimum_withdraw_limit = await contract.methods.Minimum_withdraw_limit().call();  
 
     let Du_price_in_usdt = await contract.methods.Du_price_in_usdt().call();
+    let DuSelll_price_in_usdt = await contract.methods.Du_sell_price().call();
 
     let usdt_to_du = await contract.methods.get_usdt_to_du().call();  
     let du_to_usdt = await contract.methods.get_du_to_usdt().call();  
@@ -340,12 +342,12 @@ const count = (time) => {
     let user = await contract.methods.user(address).call();  
 
     let orderHistory = await contract.methods.get_userSwaps().call({from : address});  
-
+    console.log(orderHistory);
+    set_DuSell_price_in_usdt(DuSelll_price_in_usdt)
     set_usdt_to_du(usdt_to_du)
     set_du_to_usdt(du_to_usdt)
     set_swap_fee(Convert_To_eth(swap_fee))
     set_referralEarning(user[2])
-    // set_totalOrders(user[0])
     set_Directs(user[1])
     set_usdt_balance(usdt_Balance)
     set_du_balance(Du_Balance)
@@ -386,7 +388,7 @@ const count = (time) => {
     if((activeReceiveCurrency.label == "USDT" && activePayCurrency.label =="DU")  )
     {
 
-      let price = Number(Du_price_in_usdt)/10**18
+      let price = Number(DuSell_price_in_usdt)/10**18
      let dec_price= new Decimal(price);
      value=new Decimal(value)
       let temp=dec_price.times(value);
@@ -438,7 +440,7 @@ const count = (time) => {
     }
     if((activeReceiveCurrency.label == "USDT" && activePayCurrency.label =="DU")  )
     {
-      let price = Number(Du_price_in_usdt)/10**18
+      let price = Number(DuSell_price_in_usdt)/10**18
       let dec_price= new Decimal(price);
       value=new Decimal(value)
        let temp=value.div(dec_price);
@@ -589,7 +591,8 @@ const count = (time) => {
               style={{ backgroundImage: `url(/images/swap-bg.png)` }}
             >
               <h1>Swap</h1>
-              <h1 style={{ textAlign:"right" }}>1 DU = {Number(Du_price_in_usdt)/10**18} USDT</h1>
+              <h1 style={{ textAlign:"right" ,fontSize:"14px"}}>Buying 1 DU = {Number(Du_price_in_usdt)/10**18} USDT</h1>
+              <h1 style={{ textAlign:"right" ,fontSize:"14px" }}>Selling 1 DU = {Number(DuSell_price_in_usdt)/10**18} USDT</h1>
 
               <div className="field-control">
                 <div className="field">

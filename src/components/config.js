@@ -1,8 +1,28 @@
-export const cont_address="0x30cb5E4E7b49c0e5b825617EB97c53DD1B001313";
+export const cont_address="0x30cb5E4E7b49c0e5b825617EB97c53DD1B001313"; //0xe7245fE880a88F8F5f98DF7A34eAF9E651032ae1
 export const usdt_Address="0x55d398326f99059fF775485246999027B3197955";
 export const du_Address="0xe298eD3543B45037A2D4037ac6dfeB2E801f9803";
 
 export const cont_abi=[
+	{
+		"inputs": [],
+		"name": "Add_AllpendingOrder",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "orderNo",
+				"type": "uint256"
+			}
+		],
+		"name": "Add_pendingOrder",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
 	{
 		"inputs": [
 			{
@@ -51,6 +71,13 @@ export const cont_abi=[
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "initialize",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -93,11 +120,6 @@ export const cont_abi=[
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -119,6 +141,19 @@ export const cont_abi=[
 			}
 		],
 		"name": "update_Du_Price",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "val",
+				"type": "uint256"
+			}
+		],
+		"name": "update_DuSell_Price",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -293,6 +328,19 @@ export const cont_abi=[
 	},
 	{
 		"inputs": [],
+		"name": "Du_sell_price",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "fee",
 		"outputs": [
 			{
@@ -366,11 +414,169 @@ export const cont_abi=[
 	},
 	{
 		"inputs": [],
+		"name": "get_All_successSwaps",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "userAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "order_no",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "in_TokenAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "in_Amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "out_Amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderPlacingTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "decision",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "index_no",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "fee",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct Du_Swap.order_data[]",
+				"name": "order",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "get_AllpendingOrder",
+		"outputs": [
+			{
+				"internalType": "uint256[100]",
+				"name": "arr",
+				"type": "uint256[100]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "get_du_to_usdt",
 		"outputs": [
 			{
 				"internalType": "uint256",
 				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "i",
+				"type": "uint256"
+			}
+		],
+		"name": "get_orderData",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "userAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "order_no",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "in_TokenAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "in_Amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "out_Amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderPlacingTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "decision",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "index_no",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "fee",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct Du_Swap.order_data",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_orderNo",
+				"type": "uint256"
+			}
+		],
+		"name": "get_orderIndexNo",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
 				"type": "uint256"
 			}
 		],
@@ -524,6 +730,25 @@ export const cont_abi=[
 	{
 		"inputs": [],
 		"name": "ref_percentage",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "success_orders_arr",
 		"outputs": [
 			{
 				"internalType": "uint256",
